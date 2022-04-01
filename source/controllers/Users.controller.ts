@@ -103,5 +103,10 @@ const createUser = (req: Request, res: Response, next: NextFunction) => {
     })
 }
 
+const updateUser = (req: Request, res: Response, next: NextFunction) => {
+  logging.info(NAMESPACE, "Updating user");
+  let { user_nome, user_login, user_password, user_tipo } = req.body;
+}
+
 
 export default { getAllUsers, getUserById, createUser };

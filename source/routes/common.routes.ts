@@ -1,4 +1,3 @@
-import config from "../../source/config/config";
 import express, { Application, Express, Request, Response } from "express";
 
 export abstract class CommonRoutes {
