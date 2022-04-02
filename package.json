@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node index.ts",
     "predev": "npm run swagger",
-    "prebuild": "npm un swagger",
+    "prebuild": "npx run swagger",
     "build": "tsc",
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q index.ts\"",
     "swagger": "tsoa spec"

@@ -4,12 +4,14 @@ import * as winston from 'winston';
 import * as expressWinston from 'express-winston';
 import cors from 'cors';
 import swaggerUi from "swagger-ui-express";
+import * as swaggerDocument from "./public/swagger.json";
 import config from "./source/config/config";
 import logging from "./source/config/logging";
 import { CommonRoutes } from "./source/routes/common.routes";
 import { UsersRoutes } from "./source/routes/users.route";
 import debug from "debug";
 import { debuglog } from "util";
+import { AuthRoutes } from "./source/routes/auth.routes";
 
 const NAMESPACE = "Server";
 const app: Application = express();
@@ -60,25 +62,20 @@ app.use((req, res, next) => {
   next();
 })
 
-
+routes.push(new AuthRoutes(app));
 routes.push(new UsersRoutes(app));
 
+
 app.get('/', (req, res, next) => {
-  const runningMessage = `Server running at http://localhost:${config.server.port}`;
   const error = new Error('You do not have permission to access this page.');
-  res.status(200).send(runningMessage);
+  res.status(401).send(error.message);
 })
 
-/**app.use(
-  "/docs",
+app.use(
+  "/swagger",
   swaggerUi.serve,
-  swaggerUi.setup(undefined, {
-    swaggerOptions: {
-      url: "public/swagger.json",
-
-    },
-  })
-); */
+  swaggerUi.setup(swaggerDocument)
+);
 
 app.listen(config.server.port, () => {
   routes.forEach((route: CommonRoutes) => {

@@ -15,7 +15,7 @@ const signJWT = (user: IUser, callback: (error: Error | null, token: string | nu
   try {
     jwt.sign(
       {
-        username: user.user_login,
+        username: user._id,
       },
       config.server.token.secret,
       {
@@ -30,7 +30,7 @@ const signJWT = (user: IUser, callback: (error: Error | null, token: string | nu
           callback(null, token);
         }
       })
-  } catch (error) {
+  } catch (error: any) {
     logging.error(NAMESPACE, error.message, error);
     callback(error, null);
   }

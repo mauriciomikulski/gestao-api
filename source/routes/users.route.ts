@@ -1,6 +1,7 @@
 import { CommonRoutes } from "./common.routes"
 import controller from "../controllers/Users.controller"
 import express, { Application } from "express"
+import extractJwt from "../middlewares/extractJWT"
 
 export class UsersRoutes extends CommonRoutes {
   constructor(app: Application) {
@@ -9,11 +10,11 @@ export class UsersRoutes extends CommonRoutes {
 
   configureRoutes() {
     this.app.route('/api/users')
-      .get(controller.getAllUsers);
+      .get(extractJwt, controller.getAllUsers);
     this.app.route('/api/users/:userId')
-      .get(controller.getUserById);
+      .get(extractJwt, controller.getUserById);
     this.app.route('/api/users')
-      .post(controller.createUser);
+      .post(extractJwt, controller.createUser);
     return this.app;
   }
 }
