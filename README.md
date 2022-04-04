@@ -1,2 +1,12 @@
 # gestao-api
-API responsável ppor gerenciar toda a aplicação
+
+Modules: [Users]
+
+API developed with:
+Language [NodeJs/Typescript]
+Framework [Express]
+Database [MySql]
+Encryptor [Bcryptjs]
+Autentication [JWT]
+Document [Swagger]
+Test [Jest]
