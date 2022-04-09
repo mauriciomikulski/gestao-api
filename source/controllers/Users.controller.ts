@@ -126,6 +126,95 @@ const createUser = (req: Request, res: Response, next: NextFunction) => {
   });
 }
 
+const updateUser = (req: Request, res: Response, next: NextFunction) => {
+  logging.log(NAMESPACE, "Updating user", LOG.INFO);
+
+  let { user_nome, user_login, user_password, user_tipo } = req.body;
+  bcryptjs.hash(user_password, 10, (hasherror, hash) => {
+    if (hasherror) {
+      logging.log(NAMESPACE, hasherror.message, LOG.ERROR, hasherror);
+      return res.status(500).json({
+        message: hasherror.message,
+        error: hasherror
+      });
+    }
+
+    let query = `UPDATE tb_user SET user_nome = '${user_nome}', user_login = '${user_login}', user_password = '${hash}', user_tipo = '${user_tipo}' WHERE id = '${req.params.userId}'`;
+
+    Connect()
+      .then(connection => {
+        Query<IMysqlResult>(connection, query)
+          .then(result => {
+            logging.log(NAMESPACE, "User updated", LOG.INFO);
+            return res.status(200).json({
+              result
+            })
+          })
+          .catch(error => {
+            logging.log(NAMESPACE, error.message, LOG.ERROR, error);
+
+            return res.status(500).json({
+              message: error.message,
+              error: error
+            });
+          })
+          .finally(() => {
+            connection.end();
+          })
+      })
+      .catch(error => {
+        logging.log(NAMESPACE, error.message, LOG.ERROR, error);
+
+        return res.status(500).json({
+          message: error.message,
+          error: error
+        });
+      });
+  });
+}
+
+const deleteUser = (req: Request, res: Response, next: NextFunction) => {
+  logging.log(NAMESPACE, "Deleting user", LOG.INFO);
+
+  let query = `DELETE FROM tb_user WHERE id = '${req.params.userId}'`;
+
+  Connect()
+    .then(connection => {
+      Query<IMysqlResult>(connection, query)
+        .then(result => {
+          logging.log(NAMESPACE, "User deleted", LOG.INFO);
+          return res.status(200).json({
+            result
+          })
+        })
+        .catch(error => {
+          logging.log(NAMESPACE, error.message, LOG.ERROR, error);
+
+          return res.status(500).json({
+            message: error.message,
+            error: error
+          });
+        })
+        .finally(() => {
+          connection.end();
+        })
+    })
+    .catch(error => {
+      logging.log(NAMESPACE, error.message, LOG.ERROR, error);
+
+      return res.status(500).json({
+        message: error.message,
+        error: error
+      });
+    });
+}
 
 
-export default { getAllUsers, getUserById, createUser };
+
+export default { 
+  getAllUsers,
+  getUserById,
+  createUser,
+  updateUser,
+  deleteUser
+};

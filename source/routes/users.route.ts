@@ -16,6 +16,10 @@ export class UsersRoutes extends CommonRoutes {
       .get(extractJwt, controller.getUserById);
     this.app.route(ROUTES.user.create)
       .post(extractJwt, controller.createUser);
+    this.app.route(ROUTES.user.update)
+      .put(extractJwt, controller.updateUser);
+    this.app.route(ROUTES.user.delete)
+      .delete(extractJwt, controller.deleteUser);
     return this.app;
   }
 }
