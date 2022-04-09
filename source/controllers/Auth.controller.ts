@@ -4,7 +4,7 @@ import bcryptjs from 'bcryptjs';
 import signJWT from '../functions/signJWT';
 import { Connect, Query } from '../config/mysql';
 import IUser from '../interfaces/IUser';
-import { LOG } from '../config/constants';
+import { LOG } from '../config/constants/constants';
 
 const NAMESPACE = 'AuthController';
 

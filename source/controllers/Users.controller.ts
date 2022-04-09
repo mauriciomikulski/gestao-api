@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import {LOG} from '../config/constants'
+import {LOG} from '../config/constants/constants'
 import logging from "../config/logging";
 import bcryptjs from "bcryptjs";
 import { Connect, Query } from "../config/mysql";

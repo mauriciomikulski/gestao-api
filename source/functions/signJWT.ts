@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import config from "../config/config";
-import { LOG } from "../config/constants";
+import { LOG } from "../config/constants/constants";
 import logging from "../config/logging";
 import IUser from "../interfaces/IUser";
 

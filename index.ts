@@ -13,7 +13,7 @@ import { UsersRoutes } from "./source/routes/users.route";
 import debug from "debug";
 import { debuglog } from "util";
 import { AuthRoutes } from "./source/routes/auth.routes";
-import { LOG } from "./source/config/constants";
+import { LOG } from "./source/config/constants/constants";
 
 const NAMESPACE = "Server";
 const app: Application = express();
