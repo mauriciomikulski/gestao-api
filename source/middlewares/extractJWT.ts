@@ -2,11 +2,12 @@ import { Request, Response, NextFunction } from "express";
 import logging from "../config/logging";
 import jwt from "jsonwebtoken";
 import config from "../config/config";
+import { LOG } from "../config/constants";
 
 const NAMESPACE = "Auth";
 
 const extractJwt = async (req: Request, res: Response, next: NextFunction) => {
-  logging.info(NAMESPACE, "Validating token");
+  logging.log(NAMESPACE, "Validating token", LOG.INFO);
 
   let token = req.headers.authorization?.split(' ')[1];
 

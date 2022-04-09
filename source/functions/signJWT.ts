@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import config from "../config/config";
+import { LOG } from "../config/constants";
 import logging from "../config/logging";
 import IUser from "../interfaces/IUser";
 
@@ -10,7 +11,7 @@ const signJWT = (user: IUser, callback: (error: Error | null, token: string | nu
   var expirationTime = timeSinchEpoch + Number(config.server.token.expireTime) * 100000;
   var expirationTimeInSeconds = Math.floor(expirationTime / 1000);
 
-  logging.info(NAMESPACE, `Attempting to sign token for ${user._id}`);
+  logging.log(NAMESPACE, `Attempting to sign token for ${user._id}`, LOG.INFO);
 
   try {
     jwt.sign(
@@ -31,7 +32,7 @@ const signJWT = (user: IUser, callback: (error: Error | null, token: string | nu
         }
       })
   } catch (error: any) {
-    logging.error(NAMESPACE, error.message, error);
+    logging.log(NAMESPACE, error.message, LOG.ERROR, error);
     callback(error, null);
   }
 };

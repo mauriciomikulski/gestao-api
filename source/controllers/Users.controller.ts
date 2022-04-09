@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
+import {LOG} from '../config/constants'
 import logging from "../config/logging";
 import bcryptjs from "bcryptjs";
-import signJWT from "../functions/signJWT";
 import { Connect, Query } from "../config/mysql";
 import IUser from "../interfaces/IUser";
 import IMysqlResult from "../interfaces/IMysql";
@@ -9,7 +9,7 @@ import IMysqlResult from "../interfaces/IMysql";
 const NAMESPACE = "Users";
 
 const getAllUsers = (req: Request, res: Response, next: NextFunction) => {
-  logging.info(NAMESPACE, "Getting all users");
+  logging.log(NAMESPACE, "Getting all users", LOG.INFO);
 
   let query = 'SELECT * FROM tb_user'
 
@@ -23,7 +23,7 @@ const getAllUsers = (req: Request, res: Response, next: NextFunction) => {
           })
         })
         .catch(error => {
-          logging.error(NAMESPACE, error.message, error);
+          logging.log(NAMESPACE, error.message, LOG.ERROR, error);
 
           return res.status(500).json({
             message: error.message,
@@ -35,7 +35,7 @@ const getAllUsers = (req: Request, res: Response, next: NextFunction) => {
         })
     })
     .catch(error => {
-      logging.error(NAMESPACE, error.message, error);
+      logging.log(NAMESPACE, error.message, LOG.ERROR, error);
 
       return res.status(500).json({
         message: error.message,
@@ -45,7 +45,7 @@ const getAllUsers = (req: Request, res: Response, next: NextFunction) => {
 }
 
 const getUserById = (req: Request, res: Response, next: NextFunction) => {
-  logging.info(NAMESPACE, "Getting user by id");
+  logging.log(NAMESPACE, "Getting user by id", LOG.INFO);
 
   let query = `SELECT * from tb_user where id = '${req.params.userId}'`;
 
@@ -58,7 +58,7 @@ const getUserById = (req: Request, res: Response, next: NextFunction) => {
           })
         })
         .catch(error => {
-          logging.error(NAMESPACE, error.message, error);
+          logging.log(NAMESPACE, error.message, LOG.ERROR, error);
 
           res.status(500).json({
             message: error.message,
@@ -70,7 +70,7 @@ const getUserById = (req: Request, res: Response, next: NextFunction) => {
         })
     })
     .catch(error => {
-      logging.error(NAMESPACE, error.message, error);
+      logging.log(NAMESPACE, error.message, LOG.ERROR, error);
 
       return res.status(500).json({
         message: error.message,
@@ -80,12 +80,12 @@ const getUserById = (req: Request, res: Response, next: NextFunction) => {
 }
 
 const createUser = (req: Request, res: Response, next: NextFunction) => {
-  logging.info(NAMESPACE, "Creating user");
+  logging.log(NAMESPACE, "Creating user", LOG.INFO);
 
   let { user_nome, user_login, user_password, user_tipo } = req.body;
   bcryptjs.hash(user_password, 10, (hasherror, hash) => {
     if (hasherror) {
-      logging.error(NAMESPACE, hasherror.message, hasherror);
+      logging.log(NAMESPACE, hasherror.message, LOG.ERROR, hasherror);
       return res.status(500).json({
         message: hasherror.message,
         error: hasherror
@@ -98,13 +98,13 @@ const createUser = (req: Request, res: Response, next: NextFunction) => {
       .then(connection => {
         Query<IMysqlResult>(connection, query)
           .then(result => {
-            logging.info(NAMESPACE, "User created");
+            logging.log(NAMESPACE, "User created", LOG.INFO);
             return res.status(200).json({
               result
             })
           })
           .catch(error => {
-            logging.error(NAMESPACE, error.message, error);
+            logging.log(NAMESPACE, error.message, LOG.ERROR, error);
 
             return res.status(500).json({
               message: error.message,
@@ -116,7 +116,7 @@ const createUser = (req: Request, res: Response, next: NextFunction) => {
           })
       })
       .catch(error => {
-        logging.error(NAMESPACE, error.message, error);
+        logging.log(NAMESPACE, error.message, LOG.ERROR, error);
 
         return res.status(500).json({
           message: error.message,

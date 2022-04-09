@@ -6,16 +6,20 @@ import cors from 'cors';
 import swaggerUi from "swagger-ui-express";
 import * as swaggerDocument from "./public/swagger.json";
 import config from "./source/config/config";
+import utils from "util";
 import logging from "./source/config/logging";
 import { CommonRoutes } from "./source/routes/common.routes";
 import { UsersRoutes } from "./source/routes/users.route";
 import debug from "debug";
 import { debuglog } from "util";
 import { AuthRoutes } from "./source/routes/auth.routes";
+import { LOG } from "./source/config/constants";
 
 const NAMESPACE = "Server";
 const app: Application = express();
 const routes: Array<CommonRoutes> = [];
+
+const util = utils.debuglog('foo');
 
 app.use(express.json());
 app.use(cors());
@@ -37,10 +41,16 @@ app.use(expressWinston.logger(loggerOptions));
 
 /** Log the req and res */
 app.use((req, res, next) => {
-  logging.info(NAMESPACE, `METHOD: [${req.method}] - URL: [${req.url}] - IP: [${req.socket.remoteAddress}]`);
+  logging.log(NAMESPACE,
+    `METHOD: [${req.method}] - URL: [${req.url}] - IP: [${req.socket.remoteAddress}]`,
+    LOG.INFO);
 
   res.on('finish', () => {
-    logging.info(NAMESPACE, `METHOD: [${req.method}] - URL: [${req.url}] - STATUS: [${res.statusCode}] - IP: [${req.socket.remoteAddress}]`);
+    logging.log(
+      NAMESPACE,
+      `METHOD: [${req.method}] - URL: [${req.url}] - STATUS: [${res.statusCode}] - IP: [${req.socket.remoteAddress}]`,
+      LOG.INFO
+    );
   })
   next();
 })
