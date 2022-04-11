@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import {LOG} from '../config/constants/constants'
+import { LOG } from '../config/constants/log.constants'
 import logging from "../config/logging";
 import bcryptjs from "bcryptjs";
 import { Connect, Query } from "../config/mysql";
@@ -211,7 +211,7 @@ const deleteUser = (req: Request, res: Response, next: NextFunction) => {
 
 
 
-export default { 
+export default {
   getAllUsers,
   getUserById,
   createUser,

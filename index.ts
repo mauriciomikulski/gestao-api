@@ -13,7 +13,7 @@ import { UsersRoutes } from "./source/routes/users.route";
 import debug from "debug";
 import { debuglog } from "util";
 import { AuthRoutes } from "./source/routes/auth.routes";
-import { LOG } from "./source/config/constants/constants";
+import { LOG } from "./source/config/constants/log.constants";
 
 const NAMESPACE = "Server";
 const app: Application = express();
@@ -43,7 +43,8 @@ app.use(expressWinston.logger(loggerOptions));
 app.use((req, res, next) => {
   logging.log(NAMESPACE,
     `METHOD: [${req.method}] - URL: [${req.url}] - IP: [${req.socket.remoteAddress}]`,
-    LOG.INFO);
+    LOG.INFO
+  );
 
   res.on('finish', () => {
     logging.log(

@@ -13,7 +13,7 @@ export class AuthRoutes extends CommonRoutes {
     this.app.route(ROUTES.auth.validate)
       .get(extractJwt, controller.validateToken);
     this.app.route(ROUTES.auth.login)
-      .post(controller.loginAuth);    
+      .post(controller.loginAuth);
     return this.app;
   }
 }
