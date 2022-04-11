@@ -23,6 +23,7 @@
     "moment": "^2.29.2",
     "mysql": "^2.18.1",
     "nodemon": "^2.0.15",
+    "swagger": "^0.7.5",
     "swagger-ui-express": "^4.3.0",
     "ts-node": "^10.7.0",
     "tsoa": "^3.14.1",
